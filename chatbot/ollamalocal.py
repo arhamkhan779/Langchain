@@ -4,6 +4,8 @@ from langchain_core.output_parsers import StrOutputParser
 import streamlit as st
 from dotenv import load_dotenv
 import os
+from langchain_community.llms import Ollama
+
 
 load_dotenv()
 os.environ['GROQ_API_KEY']=os.getenv("groq_api")
@@ -17,15 +19,13 @@ prompt=ChatPromptTemplate.from_messages(
     ]
 )
 
-st.title("Langchain with Groq API")
+st.title("Langchain with OLLAMA DeepSeekr1")
 input_text=st.text_input("Enter the query")
 
-llm=ChatGroq(model="llama-3.3-70b-versatile")
+llm=Ollama(model="deepseek-r1:1.5b")
 output_parser=StrOutputParser()
 
 chain=prompt | llm | output_parser
 
 if input_text:
     st.write(chain.invoke({"Question":input_text}))
-
-
